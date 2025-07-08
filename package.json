@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"author": "Crescware Inc.",
 	"bin": {
-		"fidx": "./dist/index.js"
+		"fidx": "dist/index.js"
 	},
 	"bugs": {
 		"url": "https://github.com/crescware/fidx/issues"
@@ -24,7 +24,9 @@
 		"typescript": "5.8.3"
 	},
 	"files": [
-		"dist"
+		"dist",
+		"README.md",
+		"LICENSE"
 	],
 	"homepage": "https://github.com/crescware/fidx#readme",
 	"keywords": [
@@ -38,7 +40,7 @@
 	"module": "dist/index.mjs",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/crescware/fidx.git"
+		"url": "git+https://github.com/crescware/fidx.git"
 	},
 	"scripts": {
 		"build": "tsup index.ts --format cjs,esm --clean",

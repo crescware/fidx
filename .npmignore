@@ -1,9 +1,0 @@
-src/
-*.ts
-!dist/**/*.d.ts
-tsconfig.json
-biome.json
-mise.toml
-.git/
-.gitignore
-example/

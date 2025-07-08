@@ -3,6 +3,7 @@ import { dim } from "yoctocolors";
 
 import type { extractAllFunctions } from "./extract-all-functions";
 import { makeColoredName } from "./make-colored-name";
+import { typeMetadata } from "./type-metadata";
 
 export function displayFunctionAsGrouped(
 	targetDir: string,
@@ -28,7 +29,10 @@ export function displayFunctionAsGrouped(
 			const paddedLineNumber = dim(
 				String(func.line).padStart(lineNumberWidth, " "),
 			);
-			console.log(`  ${paddedLineNumber} ${colored}`);
+			const returnType = func.returnType
+				? `${dim(":")} ${typeMetadata[func.type].color(func.returnType)}`
+				: "";
+			console.log(`  ${paddedLineNumber} ${colored}${returnType}`);
 			totalFunctions++;
 		}
 

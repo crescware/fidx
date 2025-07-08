@@ -330,7 +330,7 @@ var PreconditionError = class extends Error {
 // src/main.ts
 async function main() {
   const args = (0, import_arg.default)({
-    "--report": String
+    "--format": String
   });
   const targetPath = args._[0];
   if (!targetPath) {
@@ -343,8 +343,8 @@ async function main() {
   const elapsedSeconds = (endTime - startTime) / 1e3;
   console.log("Function extraction complete!\n");
   console.log(divider());
-  const reportType = args["--report"] || "table";
-  if (reportType === "table") {
+  const formatType = args["--format"] || "table";
+  if (formatType === "table") {
     const { totalFunctions, fileCount } = displayFunctionExtractionResults(
       targetDir,
       results
@@ -352,7 +352,7 @@ async function main() {
     displaySummary(totalFunctions, fileCount, elapsedSeconds);
     return;
   }
-  if (reportType === "list") {
+  if (formatType === "list") {
     const { totalFunctions, fileCount } = displayFunctionExtractionResultsAsList(targetDir, results);
     displaySummary(totalFunctions, fileCount, elapsedSeconds);
     return;

@@ -10,7 +10,7 @@ import { PreconditionError } from "./precondition-error";
 
 export async function main(): Promise<void> {
 	const args = arg({
-		"--report": String,
+		"--format": String,
 	});
 
 	const targetPath = args._[0];
@@ -26,9 +26,9 @@ export async function main(): Promise<void> {
 	console.log("Function extraction complete!\n");
 	console.log(divider());
 
-	const reportType = args["--report"] || "table";
+	const formatType = args["--format"] || "table";
 
-	if (reportType === "table") {
+	if (formatType === "table") {
 		const { totalFunctions, fileCount } = displayFunctionExtractionResults(
 			targetDir,
 			results,
@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
 		return;
 	}
 
-	if (reportType === "list") {
+	if (formatType === "list") {
 		const { totalFunctions, fileCount } =
 			displayFunctionExtractionResultsAsList(targetDir, results);
 

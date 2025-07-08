@@ -23,7 +23,7 @@ You can also use `yarn` or `pnpm` as preferred.
 ## Usage
 
 ```bash
-fidx <path> [--report <format>]
+fidx <path> [--format <format>]
 ```
 
 ### Arguments
@@ -33,7 +33,7 @@ The directory or file you want to analyze for functions.
 
 ### Options
 
-**`--report <format>`**  
+**`--format <format>`**  
 Specifies the output format. Available formats:
 
 #### `table` (default)

@@ -7,7 +7,8 @@ export function displayFunctionAsTsv(
 	results: Awaited<ReturnType<typeof extractAllFunctions>>,
 	useAbsolutePaths: boolean,
 ): void {
-	console.log("path\tline\tname");
+	const headers = ["path", "line", "name", "returnType"];
+	console.log(headers.join("\t"));
 
 	for (const result of results) {
 		const path = useAbsolutePaths
@@ -15,7 +16,8 @@ export function displayFunctionAsTsv(
 			: relative(targetDir, result.filePath);
 
 		for (const func of result.functions) {
-			console.log(`${path}\t${func.line}\t${func.name}`);
+			const row = [path, func.line, func.name, func.returnType || ""];
+			console.log(row.join("\t"));
 		}
 	}
 }

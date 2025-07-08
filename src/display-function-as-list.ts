@@ -3,6 +3,7 @@ import { dim } from "yoctocolors";
 
 import type { extractAllFunctions } from "./extract-all-functions";
 import { makeColoredName } from "./make-colored-name";
+import { typeMetadata } from "./type-metadata";
 
 export function displayFunctionAsList(
 	targetDir: string,
@@ -20,7 +21,10 @@ export function displayFunctionAsList(
 		for (const func of result.functions) {
 			const location = `${path}:${func.line}`;
 			const colored = makeColoredName(func.name, func.type);
-			console.log(`${dim(location)} ${colored}`);
+			const returnType = func.returnType
+				? `${dim(":")} ${typeMetadata[func.type].color(func.returnType)}`
+				: "";
+			console.log(`${dim(location)} ${colored}${returnType}`);
 			totalFunctions++;
 		}
 

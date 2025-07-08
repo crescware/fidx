@@ -87,6 +87,9 @@ path/to/components/Button.tsx	32	IconButton
 #### `--absolute`
 Displays absolute file paths instead of relative paths from the target directory. When not specified, relative paths are displayed.
 
+#### `--version`
+Displays the current version of fidx.
+
 ## Requirements
 
 - Node.js 22 or higher

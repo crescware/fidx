@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import arg from "arg";
-
+import packageJson from "../package.json";
 import { displayFunctionAsGrouped } from "./display-function-as-grouped";
 import { displayFunctionAsList } from "./display-function-as-list";
 import { displayFunctionAsTsv } from "./display-function-as-tsv";
@@ -14,7 +14,13 @@ export async function main(): Promise<void> {
 	const args = arg({
 		"--format": String,
 		"--absolute": Boolean,
+		"--version": Boolean,
 	});
+
+	if (args["--version"]) {
+		console.log(packageJson.version);
+		return;
+	}
 
 	const targetPath = args._[0];
 	if (!targetPath) {

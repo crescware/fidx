@@ -1,0 +1,32 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+	"files": {
+		"includes": ["**"]
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"paths": {
+							"vitest": {
+								"importNames": ["it"],
+								"message": "Do not import \"it()\" directly from vitest. Use \"test()\" instead."
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

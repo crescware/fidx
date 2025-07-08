@@ -1,0 +1,49 @@
+{
+	"name": "fidx",
+	"description": "Function Index - A tool that scans TypeScript/TSX files and lists function definitions",
+	"version": "1.0.0",
+	"author": "Crescware Inc.",
+	"bin": {
+		"fidx": "./dist/index.js"
+	},
+	"bugs": {
+		"url": "https://github.com/crescware/fidx/issues"
+	},
+	"dependencies": {
+		"arg": "~5.0.2",
+		"glob": "~11.0.0",
+		"oxc-parser": "~0.75.1",
+		"oxc-walker": "~0.3.0",
+		"yoctocolors": "~2.1.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.0.6",
+		"@types/node": "^24.0.10",
+		"tsup": "^8.5.0",
+		"tsx": "~4.20.3",
+		"typescript": "5.8.3"
+	},
+	"files": [
+		"dist"
+	],
+	"homepage": "https://github.com/crescware/fidx#readme",
+	"keywords": [
+		"function",
+		"index",
+		"tsx",
+		"typescript"
+	],
+	"license": "MIT",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/crescware/fidx.git"
+	},
+	"scripts": {
+		"build": "tsup index.ts --format cjs,esm --clean",
+		"exec": "tsx index.ts",
+		"prepublishOnly": "npm run build"
+	},
+	"type": "module"
+}

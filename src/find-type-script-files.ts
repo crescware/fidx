@@ -2,6 +2,7 @@ import { Glob } from "glob";
 
 export async function findTypeScriptFiles(
 	targetDir: string,
+	showProgress: boolean,
 ): Promise<readonly string[]> {
 	const start = Date.now();
 	const glob = new Glob("**/*.{ts,tsx}", {
@@ -14,7 +15,9 @@ export async function findTypeScriptFiles(
 		files.push(file);
 	}
 	const end = Date.now();
-	console.log(`Glob execution time: ${(end - start) / 1000}s`);
+	if (showProgress) {
+		console.log(`Glob execution time: ${(end - start) / 1000}s`);
+	}
 
 	return files;
 }

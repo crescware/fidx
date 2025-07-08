@@ -23,7 +23,7 @@ You can also use `yarn` or `pnpm` as preferred.
 ## Usage
 
 ```bash
-fidx <path> [--format <format>]
+fidx <path> [--format <format>] [--absolute]
 ```
 
 ### Arguments
@@ -33,11 +33,11 @@ The directory or file you want to analyze for functions.
 
 ### Options
 
-**`--format <format>`**  
+#### `--format <format>`
 Specifies the output format. Available formats:
 
-#### `table` (default)
-Displays results in a table format with grouped file paths.
+**`grouped` (default)**  
+Displays results grouped by file paths.
 
 ```
 path/to/auth/login.ts
@@ -55,7 +55,7 @@ path/to/components/Button.tsx
   32 IconButton()
 ```
 
-#### `list`
+**`list`**  
 Displays results in a single-line format.
 
 ```
@@ -68,6 +68,28 @@ path/to/utils/string.ts:23 sanitizeInput()
 path/to/components/Button.tsx:8 Button()
 path/to/components/Button.tsx:32 IconButton()
 ```
+
+**`tsv`**  
+Displays results in Tab-Separated Values format, suitable for importing into spreadsheets or processing with other tools.
+
+```
+path	line	name
+path/to/auth/login.ts	12	validateCredentials
+path/to/auth/login.ts	28	generateToken
+path/to/auth/login.ts	45	handleLoginRequest
+path/to/utils/string.ts	5	capitalize
+path/to/utils/string.ts	11	truncate
+path/to/utils/string.ts	23	sanitizeInput
+path/to/components/Button.tsx	8	Button
+path/to/components/Button.tsx	32	IconButton
+```
+
+#### `--absolute`
+Displays absolute file paths instead of relative paths from the target directory. When not specified, relative paths are displayed.
+
+## Requirements
+
+- Node.js 22 or higher
 
 ## License
 

@@ -9,6 +9,7 @@ type FileResult = Readonly<{
 
 export function extractFunctionsFromFiles(
 	files: Awaited<ReturnType<typeof findTypeScriptFiles>>,
+	showProgress: boolean,
 ): readonly FileResult[] {
 	const start = Date.now();
 	const results: FileResult[] = [];
@@ -22,7 +23,9 @@ export function extractFunctionsFromFiles(
 	}
 
 	const end = Date.now();
-	console.log(`Parse time: ${(end - start) / 1000}s`);
+	if (showProgress) {
+		console.log(`Parse time: ${(end - start) / 1000}s`);
+	}
 
 	return results;
 }

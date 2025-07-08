@@ -1,16 +1,19 @@
 import { resolve } from "node:path";
 import arg from "arg";
 
-import { displayFunctionExtractionResults } from "./display-function-extraction-results";
-import { displayFunctionExtractionResultsAsList } from "./display-function-extraction-results-as-list";
+import { displayFunctionAsGrouped } from "./display-function-as-grouped";
+import { displayFunctionAsList } from "./display-function-as-list";
+import { displayFunctionAsTsv } from "./display-function-as-tsv";
+import { displayHeader } from "./display-header";
+import { displayLegend } from "./display-legend";
 import { displaySummary } from "./display-summary";
-import { divider } from "./divider";
 import { extractAllFunctions } from "./extract-all-functions";
 import { PreconditionError } from "./precondition-error";
 
 export async function main(): Promise<void> {
 	const args = arg({
 		"--format": String,
+		"--absolute": Boolean,
 	});
 
 	const targetPath = args._[0];
@@ -18,20 +21,22 @@ export async function main(): Promise<void> {
 		throw new PreconditionError("Directory path is required");
 	}
 	const targetDir = resolve(process.env.INIT_CWD || ".", targetPath);
+	const formatType = args["--format"] || "grouped";
+	const showProgress = formatType !== "tsv";
+	const useAbsolutePaths = args["--absolute"] || false;
+
 	const startTime = Date.now();
-	const results = await extractAllFunctions(targetDir);
+	const results = await extractAllFunctions(targetDir, showProgress);
 	const endTime = Date.now();
 	const elapsedSeconds = (endTime - startTime) / 1000;
 
-	console.log("Function extraction complete!\n");
-	console.log(divider());
-
-	const formatType = args["--format"] || "table";
-
-	if (formatType === "table") {
-		const { totalFunctions, fileCount } = displayFunctionExtractionResults(
+	if (formatType === "grouped") {
+		displayHeader();
+		displayLegend();
+		const { totalFunctions, fileCount } = displayFunctionAsGrouped(
 			targetDir,
 			results,
+			useAbsolutePaths,
 		);
 
 		displaySummary(totalFunctions, fileCount, elapsedSeconds);
@@ -39,10 +44,20 @@ export async function main(): Promise<void> {
 	}
 
 	if (formatType === "list") {
-		const { totalFunctions, fileCount } =
-			displayFunctionExtractionResultsAsList(targetDir, results);
+		displayHeader();
+		displayLegend();
+		const { totalFunctions, fileCount } = displayFunctionAsList(
+			targetDir,
+			results,
+			useAbsolutePaths,
+		);
 
 		displaySummary(totalFunctions, fileCount, elapsedSeconds);
+		return;
+	}
+
+	if (formatType === "tsv") {
+		displayFunctionAsTsv(targetDir, results, useAbsolutePaths);
 		return;
 	}
 

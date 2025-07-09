@@ -12,7 +12,11 @@ export function extractReturnType(
 ): string | null {
 	if (node.returnType?.typeAnnotation) {
 		const typeNode = node.returnType.typeAnnotation;
-		return source.slice(typeNode.start, typeNode.end).trim();
+		return source.slice(typeNode.start, typeNode.end)
+			.trim()
+			.replace(/\n/g, ' ')
+			.replace(/\t/g, '')
+			.replace(/\s+/g, ' ');
 	}
 	return null;
 }

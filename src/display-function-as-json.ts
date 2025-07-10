@@ -1,12 +1,13 @@
 import { relative } from "node:path";
+import { JsonStreamStringify } from "json-stream-stringify";
 
 import type { extractAllFunctions } from "./extract-all-functions";
 
-export function displayFunctionAsJson(
+export async function displayFunctionAsJson(
 	targetDir: string,
 	results: Awaited<ReturnType<typeof extractAllFunctions>>,
 	useAbsolutePaths: boolean,
-): void {
+): Promise<void> {
 	const output = results.map((result) => {
 		const path = useAbsolutePaths
 			? result.filePath
@@ -14,13 +15,23 @@ export function displayFunctionAsJson(
 
 		return {
 			path,
-			functions: result.functions.map((func) => ({
-				line: func.line,
-				name: func.name,
-				returnType: func.returnType,
+			functions: result.functions.map((v) => ({
+				line: v.line,
+				name: v.name,
+				returnType: v.returnType,
 			})),
 		};
 	});
 
-	console.log(JSON.stringify(output));
+	const stream = new JsonStreamStringify(output);
+
+	return new Promise<void>((resolve, reject) => {
+		stream.on("data", (v) => process.stdout.write(v));
+		stream.on("error", (e) => reject(e));
+
+		stream.on("end", () => {
+			process.stdout.write("\n");
+			resolve();
+		});
+	});
 }

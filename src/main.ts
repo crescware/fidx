@@ -77,7 +77,7 @@ export async function main(): Promise<void> {
 	}
 
 	if (formatType === "json") {
-		displayFunctionAsJson(targetDir, results, useAbsolutePaths);
+		await displayFunctionAsJson(targetDir, results, useAbsolutePaths);
 		return;
 	}
 

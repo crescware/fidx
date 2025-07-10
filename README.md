@@ -84,6 +84,37 @@ path/to/components/Button.tsx	8	Button
 path/to/components/Button.tsx	32	IconButton
 ```
 
+**`json`**  
+Displays results in JSON format, suitable for processing with tools like `jq`. Each file is represented as an object containing its path and an array of functions.
+
+```json
+[
+  {
+    "path": "path/to/auth/login.ts",
+    "functions": [
+      {"line": 12, "name": "validateCredentials", "returnType": "boolean"},
+      {"line": 28, "name": "generateToken", "returnType": "string"},
+      {"line": 45, "name": "handleLoginRequest", "returnType": "Promise<void>"}
+    ]
+  },
+  {
+    "path": "path/to/components/Button.tsx",
+    "functions": [
+      {"line": 8, "name": "Button", "returnType": "JSX.Element"},
+      {"line": 32, "name": "IconButton", "returnType": "JSX.Element"}
+    ]
+  },
+  {
+    "path": "path/to/utils/string.ts",
+    "functions": [
+      {"line": 5, "name": "capitalize", "returnType": "string"},
+      {"line": 11, "name": "truncate", "returnType": "string"},
+      {"line": 23, "name": "sanitizeInput", "returnType": "string"}
+    ]
+  }
+]
+```
+
 #### `--absolute`
 Displays absolute file paths instead of relative paths from the target directory. When not specified, relative paths are displayed.
 

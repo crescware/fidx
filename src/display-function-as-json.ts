@@ -18,6 +18,7 @@ export async function displayFunctionAsJson(
 			functions: result.functions.map((v) => ({
 				line: v.line,
 				name: v.name,
+				parameters: v.parameters,
 				returnType: v.returnType,
 			})),
 		};

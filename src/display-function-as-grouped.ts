@@ -1,6 +1,7 @@
 import { relative } from "node:path";
 import { dim } from "yoctocolors";
 
+import { buildParameterList } from "./build-parameter-list";
 import type { extractAllFunctions } from "./extract-all-functions";
 import { makeColoredName } from "./make-colored-name";
 import { typeMetadata } from "./type-metadata";
@@ -29,10 +30,13 @@ export function displayFunctionAsGrouped(
 			const paddedLineNumber = dim(
 				String(func.line).padStart(lineNumberWidth, " "),
 			);
+			const parameterList = buildParameterList(func);
 			const returnType = func.returnType
 				? `${dim(":")} ${typeMetadata[func.type].color(func.returnType)}`
 				: "";
-			console.log(`  ${paddedLineNumber} ${colored}${returnType}`);
+			console.log(
+				`  ${paddedLineNumber} ${colored}${parameterList}${returnType}`,
+			);
 			totalFunctions++;
 		}
 

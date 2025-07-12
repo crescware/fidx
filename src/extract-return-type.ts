@@ -1,10 +1,4 @@
-import type { FilterByType } from "./filter-by-type";
-import type { Node } from "./node";
-
-type FunctionNode =
-	| FilterByType<Node, "FunctionDeclaration">
-	| FilterByType<Node, "FunctionExpression">
-	| FilterByType<Node, "ArrowFunctionExpression">;
+import type { FunctionNode } from "./function-node";
 
 export function extractReturnType(
 	node: FunctionNode,

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import oxc from "oxc-parser";
 import { walk } from "oxc-walker";
 
+import { extractParameters } from "./extract-parameters";
 import { extractReturnType } from "./extract-return-type";
 import type { FunctionInfo } from "./function-info";
 import { isArrowFunctionExpression } from "./is-arrow-function-expression";
@@ -51,6 +52,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 						type: "function",
 						line: getLineNumber(node.start),
 						returnType: extractReturnType(node, source),
+						parameters: extractParameters(node.params, source),
 					});
 					return;
 				}
@@ -62,6 +64,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 							type: "arrow",
 							line: getLineNumber(node.start),
 							returnType: extractReturnType(node.init, source),
+							parameters: extractParameters(node.init.params, source),
 						});
 						return;
 					}
@@ -71,6 +74,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 							type: "function",
 							line: getLineNumber(node.start),
 							returnType: extractReturnType(node.init, source),
+							parameters: extractParameters(node.init.params, source),
 						});
 						return;
 					}
@@ -84,6 +88,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 							type: "constructor",
 							line: getLineNumber(node.start),
 							returnType: extractReturnType(node.value, source),
+							parameters: extractParameters(node.value.params, source),
 						});
 						return;
 					}
@@ -92,6 +97,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 						type: "method",
 						line: getLineNumber(node.start),
 						returnType: extractReturnType(node.value, source),
+						parameters: extractParameters(node.value.params, source),
 					});
 					return;
 				}
@@ -103,6 +109,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 							type: "arrow",
 							line: getLineNumber(node.start),
 							returnType: extractReturnType(node.value, source),
+							parameters: extractParameters(node.value.params, source),
 						});
 						return;
 					}
@@ -112,6 +119,7 @@ export function extractFunctionsFromFile(filePath: string): FunctionInfo[] {
 							type: "function",
 							line: getLineNumber(node.start),
 							returnType: extractReturnType(node.value, source),
+							parameters: extractParameters(node.value.params, source),
 						});
 						return;
 					}

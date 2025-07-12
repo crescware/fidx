@@ -1,5 +1,6 @@
 import { relative } from "node:path";
 
+import { buildParameterListPlain } from "./build-parameter-list-plain";
 import type { extractAllFunctions } from "./extract-all-functions";
 
 export function displayFunctionAsTsv(
@@ -7,7 +8,7 @@ export function displayFunctionAsTsv(
 	results: Awaited<ReturnType<typeof extractAllFunctions>>,
 	useAbsolutePaths: boolean,
 ): void {
-	const headers = ["path", "line", "name", "returnType"];
+	const headers = ["path", "line", "name", "parameters", "returnType"];
 	console.log(headers.join("\t"));
 
 	for (const result of results) {
@@ -16,7 +17,14 @@ export function displayFunctionAsTsv(
 			: relative(targetDir, result.filePath);
 
 		for (const func of result.functions) {
-			const row = [path, func.line, func.name, func.returnType || ""];
+			const parameterList = buildParameterListPlain(func);
+			const row = [
+				path,
+				func.line,
+				func.name,
+				parameterList,
+				func.returnType || "",
+			];
 			console.log(row.join("\t"));
 		}
 	}

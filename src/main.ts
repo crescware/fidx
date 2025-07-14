@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import arg from "arg";
+import { Command } from "commander";
 
 import packageJson from "../package.json";
 import { displayFunctionAsGrouped } from "./display-function-as-grouped";
@@ -20,25 +20,49 @@ const formatProgressMap: Record<string, boolean> = {
 };
 
 export async function main(): Promise<void> {
-	const args = arg({
-		"--format": String,
-		"--absolute": Boolean,
-		"--version": Boolean,
-	});
+	const program = new Command();
 
-	if (args["--version"]) {
-		console.log(packageJson.version);
-		return;
-	}
+	program
+		.name("fidx")
+		.description(
+			"A tool that scans TypeScript/TSX files and lists the locations of all function definitions.",
+		)
+		.version(packageJson.version)
+		.argument(
+			"<path>",
+			"The directory or file you want to analyze for functions",
+		)
+		.option(
+			"--format <type>",
+			"Specifies the output format (default: grouped)",
+			"grouped",
+		)
+		.option(
+			"--absolute",
+			"Displays absolute file paths instead of relative paths",
+			false,
+		)
+		.parse();
 
-	const targetPath = args._[0];
+	const options = program.opts();
+	const targetPath = program.args[0];
+
 	if (!targetPath) {
-		throw new PreconditionError("Directory path is required");
+		program.error("Directory path is required");
 	}
+
+	// Validate format type
+	const validFormats = ["grouped", "list", "tsv", "json"];
+	if (!validFormats.includes(options.format)) {
+		program.error(
+			`Invalid format '${options.format}'. Valid formats are: ${validFormats.join(", ")}`,
+		);
+	}
+
 	const targetDir = resolve(process.env.INIT_CWD || ".", targetPath);
-	const formatType = args["--format"] || "grouped";
+	const formatType = options.format;
 	const showProgress = formatProgressMap[formatType] ?? false;
-	const useAbsolutePaths = args["--absolute"] || false;
+	const useAbsolutePaths = options.absolute;
 
 	const startTime = Date.now();
 	const results = await extractAllFunctions(targetDir, showProgress);

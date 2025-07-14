@@ -1,5 +1,6 @@
 import type { FunctionInfo } from "./function-info";
 import type { ParameterNode } from "./function-node";
+import { normalizeWhitespace } from "./normalize-whitespace";
 
 export function extractParameterType(
 	param: ParameterNode,
@@ -35,7 +36,7 @@ export function extractParameterType(
 	const start = node.start;
 	const end = node.end;
 	if (start !== undefined && end !== undefined) {
-		return source.slice(start, end);
+		return normalizeWhitespace(source.slice(start, end));
 	}
 	return null;
 }

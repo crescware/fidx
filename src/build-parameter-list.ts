@@ -1,20 +1,22 @@
-import { dim } from "yoctocolors";
-
 import type { FunctionInfo } from "./function-info";
-import { typeMetadata } from "./type-metadata";
 
-export function buildParameterList(func: FunctionInfo): string {
-	const formattedParameters = func.parameters
-		.map((param) => {
-			const name = typeMetadata[func.type].color(param.name);
-			const type = param.type
-				? `${dim(":")} ${typeMetadata[func.type].color(param.type)}`
+type Style = Readonly<{
+	dim: (v: string) => string;
+	func: (v: string, type: FunctionInfo["type"]) => string;
+}>;
+
+export function buildParameterList(info: FunctionInfo, style: Style): string {
+	const formattedParameters = info.parameters
+		.map((v) => {
+			const name = style.func(v.name, info.type);
+			const type = v.type
+				? `${style.dim(":")} ${style.func(v.type, info.type)}`
 				: "";
 			return `${name}${type}`;
 		})
-		.join(`${dim(",")} `);
+		.join(`${style.dim(",")} `);
 
 	return formattedParameters
-		? `${dim("(")}${formattedParameters}${dim(")")}`
-		: `${dim("()")}`;
+		? `${style.dim("(")}${formattedParameters}${style.dim(")")}`
+		: `${style.dim("()")}`;
 }

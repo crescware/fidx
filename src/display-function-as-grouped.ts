@@ -25,14 +25,17 @@ export function displayFunctionAsGrouped(
 			: relative(targetDir, result.filePath);
 		console.log(dim(path));
 
-		for (const func of result.functions) {
-			const colored = makeColoredName(func.name, func.type);
+		for (const info of result.functions) {
+			const colored = makeColoredName(info.name, info.type);
 			const paddedLineNumber = dim(
-				String(func.line).padStart(lineNumberWidth, " "),
+				String(info.line).padStart(lineNumberWidth, " "),
 			);
-			const parameterList = buildParameterList(func);
-			const returnType = func.returnType
-				? `${dim(":")} ${typeMetadata[func.type].color(func.returnType)}`
+			const parameterList = buildParameterList(info, {
+				dim,
+				func: (v, type) => typeMetadata[type].color(v),
+			});
+			const returnType = info.returnType
+				? `${dim(":")} ${typeMetadata[info.type].color(info.returnType)}`
 				: "";
 			console.log(
 				`  ${paddedLineNumber} ${colored}${parameterList}${returnType}`,

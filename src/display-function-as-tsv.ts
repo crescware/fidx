@@ -1,6 +1,6 @@
 import { relative } from "node:path";
 
-import { buildParameterListPlain } from "./build-parameter-list-plain";
+import { buildParameterList } from "./build-parameter-list";
 import type { extractAllFunctions } from "./extract-all-functions";
 
 export function displayFunctionAsTsv(
@@ -16,14 +16,17 @@ export function displayFunctionAsTsv(
 			? result.filePath
 			: relative(targetDir, result.filePath);
 
-		for (const func of result.functions) {
-			const parameterList = buildParameterListPlain(func);
+		for (const info of result.functions) {
+			const parameterList = buildParameterList(info, {
+				dim: (v) => v,
+				func: (v) => v,
+			});
 			const row = [
 				path,
-				func.line,
-				func.name,
+				info.line,
+				info.name,
 				parameterList,
-				func.returnType || "",
+				info.returnType || "",
 			];
 			console.log(row.join("\t"));
 		}

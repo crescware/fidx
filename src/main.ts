@@ -1,7 +1,3 @@
-import { resolve } from "node:path";
-import arg from "arg";
-
-import packageJson from "../package.json";
 import { displayFunctionAsGrouped } from "./display-function-as-grouped";
 import { displayFunctionAsJson } from "./display-function-as-json";
 import { displayFunctionAsList } from "./display-function-as-list";
@@ -10,35 +6,12 @@ import { displayHeader } from "./display-header";
 import { displayLegend } from "./display-legend";
 import { displaySummary } from "./display-summary";
 import { extractAllFunctions } from "./extract-all-functions";
+import { parseArguments } from "./parse-arguments";
 import { PreconditionError } from "./precondition-error";
 
-const formatProgressMap: Record<string, boolean> = {
-	grouped: true,
-	list: true,
-	tsv: false,
-	json: false,
-};
-
 export async function main(): Promise<void> {
-	const args = arg({
-		"--format": String,
-		"--absolute": Boolean,
-		"--version": Boolean,
-	});
-
-	if (args["--version"]) {
-		console.log(packageJson.version);
-		return;
-	}
-
-	const targetPath = args._[0];
-	if (!targetPath) {
-		throw new PreconditionError("Directory path is required");
-	}
-	const targetDir = resolve(process.env.INIT_CWD || ".", targetPath);
-	const formatType = args["--format"] || "grouped";
-	const showProgress = formatProgressMap[formatType] ?? false;
-	const useAbsolutePaths = args["--absolute"] || false;
+	const { targetDir, formatType, showProgress, useAbsolutePaths } =
+		parseArguments();
 
 	const startTime = Date.now();
 	const results = await extractAllFunctions(targetDir, showProgress);
@@ -81,5 +54,5 @@ export async function main(): Promise<void> {
 		return;
 	}
 
-	throw new PreconditionError("invalid config");
+	throw new PreconditionError("invalid format type");
 }

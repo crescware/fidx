@@ -23,7 +23,7 @@ You can also use `yarn` or `pnpm` as preferred.
 ## Usage
 
 ```bash
-fidx <path> [--format <format>] [--absolute]
+fidx <path> [options]
 ```
 
 ### Arguments
@@ -45,14 +45,14 @@ path/to/auth/login.ts
   28 generateToken()
   45 handleLoginRequest()
 
+path/to/components/Button.tsx
+   8 Button()
+  32 IconButton()
+  
 path/to/utils/string.ts
    5 capitalize()
   11 truncate()
   23 sanitizeInput()
-
-path/to/components/Button.tsx
-   8 Button()
-  32 IconButton()
 ```
 
 **`list`**  
@@ -62,11 +62,11 @@ Displays results in a single-line format.
 path/to/auth/login.ts:12 validateCredentials()
 path/to/auth/login.ts:28 generateToken()
 path/to/auth/login.ts:45 handleLoginRequest()
+path/to/components/Button.tsx:8 Button()
+path/to/components/Button.tsx:32 IconButton()
 path/to/utils/string.ts:5 capitalize()
 path/to/utils/string.ts:11 truncate()
 path/to/utils/string.ts:23 sanitizeInput()
-path/to/components/Button.tsx:8 Button()
-path/to/components/Button.tsx:32 IconButton()
 ```
 
 **`tsv`**  
@@ -77,11 +77,11 @@ path	line	name
 path/to/auth/login.ts	12	validateCredentials
 path/to/auth/login.ts	28	generateToken
 path/to/auth/login.ts	45	handleLoginRequest
+path/to/components/Button.tsx	8	Button
+path/to/components/Button.tsx	32	IconButton
 path/to/utils/string.ts	5	capitalize
 path/to/utils/string.ts	11	truncate
 path/to/utils/string.ts	23	sanitizeInput
-path/to/components/Button.tsx	8	Button
-path/to/components/Button.tsx	32	IconButton
 ```
 
 **`json`**  
@@ -118,8 +118,11 @@ Displays results in JSON format, suitable for processing with tools like `jq`. E
 #### `--absolute`
 Displays absolute file paths instead of relative paths from the target directory. When not specified, relative paths are displayed.
 
-#### `--version`
+#### `--version`, `-V`
 Displays the current version of fidx.
+
+#### `--help`, `-h`
+Display help for command.
 
 ## Requirements
 

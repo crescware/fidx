@@ -39,81 +39,182 @@ Specifies the output format. Available formats:
 **`grouped` (default)**  
 Displays results grouped by file paths.
 
+<!-- grouped-example-start -->
 ```
-path/to/auth/login.ts
-  12 validateCredentials()
-  28 generateToken()
-  45 handleLoginRequest()
+auth/login.ts
+  12 validateCredentials(credentials: { username: string; password: string; }): boolean
+  29 generateToken(userId: string, options: { expiresIn: number }): { token: string }
+  46 handleLoginRequest(request: { email: string; password: string; }): Promise<{ success: boolean }>
 
-path/to/components/Button.tsx
-   8 Button()
-  32 IconButton()
-  
-path/to/utils/string.ts
-   5 capitalize()
-  11 truncate()
-  23 sanitizeInput()
+components/Button.tsx
+   8 Button(props: { label: string }): ReactElement
+  35 IconButton(props: { icon: string; label: string; }): ReactElement
+
+utils/string.ts
+   5 capitalize(str: string): string
+  11 truncate(str: string, length: number): string
+  24 sanitizeInput(input: string): string
 ```
+<!-- grouped-example-end -->
 
 **`list`**  
 Displays results in a single-line format.
 
+<!-- list-example-start -->
 ```
-path/to/auth/login.ts:12 validateCredentials()
-path/to/auth/login.ts:28 generateToken()
-path/to/auth/login.ts:45 handleLoginRequest()
-path/to/components/Button.tsx:8 Button()
-path/to/components/Button.tsx:32 IconButton()
-path/to/utils/string.ts:5 capitalize()
-path/to/utils/string.ts:11 truncate()
-path/to/utils/string.ts:23 sanitizeInput()
+path/to/auth/login.ts
+   12 validateCredentials(credentials: { username: string; password: string; }): boolean
+   29 generateToken(userId: string, options: { expiresIn: number }): { token: string }
+   46 handleLoginRequest(request: { email: string; password: string; }): Promise<{ success: boolean }>
+
+path/to/components/Button.tsx
+    8 Button(props: { label: string }): ReactElement
+   35 IconButton(props: { icon: string; label: string; }): ReactElement
+
+path/to/utils/string.ts
+    5 capitalize(str: string): string
+   11 truncate(str: string, length: number): string
+   24 sanitizeInput(input: string): string
 ```
+<!-- list-example-end -->
 
 **`tsv`**  
 Displays results in Tab-Separated Values format, suitable for importing into spreadsheets or processing with other tools.
 
+<!-- tsv-example-start -->
 ```
-path	line	name
-path/to/auth/login.ts	12	validateCredentials
-path/to/auth/login.ts	28	generateToken
-path/to/auth/login.ts	45	handleLoginRequest
-path/to/components/Button.tsx	8	Button
-path/to/components/Button.tsx	32	IconButton
-path/to/utils/string.ts	5	capitalize
-path/to/utils/string.ts	11	truncate
-path/to/utils/string.ts	23	sanitizeInput
+path	line	name	parameters	returnType
+path/to/auth/login.ts	12	validateCredentials	(credentials: { username: string; password: string; })	boolean
+path/to/auth/login.ts	29	generateToken	(userId: string, options: { expiresIn: number })	{ token: string }
+path/to/auth/login.ts	46	handleLoginRequest	(request: { email: string; password: string; })	Promise<{ success: boolean }>
+path/to/components/Button.tsx	8	Button	(props: { label: string })	ReactElement
+path/to/components/Button.tsx	35	IconButton	(props: { icon: string; label: string; })	ReactElement
+path/to/utils/string.ts	5	capitalize	(str: string)	string
+path/to/utils/string.ts	11	truncate	(str: string, length: number)	string
+path/to/utils/string.ts	24	sanitizeInput	(input: string)	string
 ```
+<!-- tsv-example-end -->
 
 **`json`**  
 Displays results in JSON format, suitable for processing with tools like `jq`. Each file is represented as an object containing its path and an array of functions.
 
+<!-- json-example-start -->
 ```json
 [
   {
-    "path": "path/to/auth/login.ts",
+    "path": "auth/login.ts",
     "functions": [
-      {"line": 12, "name": "validateCredentials", "returnType": "boolean"},
-      {"line": 28, "name": "generateToken", "returnType": "string"},
-      {"line": 45, "name": "handleLoginRequest", "returnType": "Promise<void>"}
+      {
+        "line": 12,
+        "name": "validateCredentials",
+        "parameters": [
+          {
+            "name": "credentials",
+            "type": "{ username: string; password: string; }"
+          }
+        ],
+        "returnType": "boolean"
+      },
+      {
+        "line": 29,
+        "name": "generateToken",
+        "parameters": [
+          {
+            "name": "userId",
+            "type": "string"
+          },
+          {
+            "name": "options",
+            "type": "{ expiresIn: number }"
+          }
+        ],
+        "returnType": "{ token: string }"
+      },
+      {
+        "line": 46,
+        "name": "handleLoginRequest",
+        "parameters": [
+          {
+            "name": "request",
+            "type": "{ email: string; password: string; }"
+          }
+        ],
+        "returnType": "Promise<{ success: boolean }>"
+      }
     ]
   },
   {
-    "path": "path/to/components/Button.tsx",
+    "path": "components/Button.tsx",
     "functions": [
-      {"line": 8, "name": "Button", "returnType": "JSX.Element"},
-      {"line": 32, "name": "IconButton", "returnType": "JSX.Element"}
+      {
+        "line": 8,
+        "name": "Button",
+        "parameters": [
+          {
+            "name": "props",
+            "type": "{ label: string }"
+          }
+        ],
+        "returnType": "ReactElement"
+      },
+      {
+        "line": 35,
+        "name": "IconButton",
+        "parameters": [
+          {
+            "name": "props",
+            "type": "{ icon: string; label: string; }"
+          }
+        ],
+        "returnType": "ReactElement"
+      }
     ]
   },
   {
-    "path": "path/to/utils/string.ts",
+    "path": "utils/string.ts",
     "functions": [
-      {"line": 5, "name": "capitalize", "returnType": "string"},
-      {"line": 11, "name": "truncate", "returnType": "string"},
-      {"line": 23, "name": "sanitizeInput", "returnType": "string"}
+      {
+        "line": 5,
+        "name": "capitalize",
+        "parameters": [
+          {
+            "name": "str",
+            "type": "string"
+          }
+        ],
+        "returnType": "string"
+      },
+      {
+        "line": 11,
+        "name": "truncate",
+        "parameters": [
+          {
+            "name": "str",
+            "type": "string"
+          },
+          {
+            "name": "length",
+            "type": "number"
+          }
+        ],
+        "returnType": "string"
+      },
+      {
+        "line": 24,
+        "name": "sanitizeInput",
+        "parameters": [
+          {
+            "name": "input",
+            "type": "string"
+          }
+        ],
+        "returnType": "string"
+      }
     ]
   }
 ]
 ```
+<!-- json-example-end -->
 
 #### `--absolute`
 Displays absolute file paths instead of relative paths from the target directory. When not specified, relative paths are displayed.

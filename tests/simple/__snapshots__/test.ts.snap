@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`simple functions detection > grouped format > should match snapshot 1`] = `
+"Extracting functions from TypeScript files...
+
+Glob execution time: 1s
+Parse time: 1s
+Function extraction complete!
+
+============================================================
+
+[2mLegend:[22m
+  [36mname()[39m - Functions and arrow functions
+  [33mname()[39m - Methods and constructors
+
+[2msimple.ts[22m
+  [2m1[22m [36madd[39m[2m([22m[36ma[39m[2m:[22m [36mnumber[39m[2m,[22m [36mb[39m[2m:[22m [36mnumber[39m[2m)[22m[2m:[22m [36mnumber[39m
+  [2m5[22m [36mconcat[39m[2m([22m[36mx[39m[2m:[22m [36mstring[39m[2m,[22m [36my[39m[2m:[22m [36mstring[39m[2m)[22m
+
+============================================================
+
+
+Total: 2 functions found in 1 files
+Time: 5.00 seconds
+"
+`;

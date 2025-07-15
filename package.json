@@ -22,7 +22,8 @@
 		"@types/node": "^24.0.10",
 		"tsup": "^8.5.0",
 		"tsx": "~4.20.3",
-		"typescript": "5.8.3"
+		"typescript": "5.8.3",
+		"vitest": "^3.2.4"
 	},
 	"engines": {
 		"node": ">=22.0.0"
@@ -48,11 +49,12 @@
 	},
 	"scripts": {
 		"build": "npm run check && tsup index.ts --format cjs,esm --clean",
-		"check": "npm run check:lint && npm run check:types",
+		"check": "npm run check:lint && npm run check:types && npm run test",
 		"check:lint": "biome check",
 		"check:types": "tsc --noEmit",
 		"exec": "tsx index.ts",
-		"prepublishOnly": "npm run build"
+		"prepublishOnly": "npm run build",
+		"test": "vitest run"
 	},
 	"type": "module"
 }

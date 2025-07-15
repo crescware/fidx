@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`complex arguments detection > grouped format > should match snapshot 1`] = `
+"Extracting functions from TypeScript files...
+
+Glob execution time: 1s
+Parse time: 1s
+Function extraction complete!
+
+============================================================
+
+[2mLegend:[22m
+  [36mname()[39m - Functions and arrow functions
+  [33mname()[39m - Methods and constructors
+
+[2mcomplex.ts[22m
+  [2m 1[22m [36mprocessData[39m[2m([22m[36mitems[39m[2m:[22m [36mArray[39m[2m,[22m [36mconfig[39m[2m:[22m [36m{ enabled: boolean; options: string[]; }[39m[2m,[22m [36mcallback[39m[2m:[22m [36m(value: T) => void[39m[2m)[22m[2m:[22m [36mvoid[39m
+  [2m14[22m [36mhandleComplexArgs[39m[2m([22m[36mmap[39m[2m:[22m [36mMap[39m[2m,[22m [36msettings[39m[2m:[22m [36m{ timeout: number; retries: number; }[39m[2m)[22m
+
+============================================================
+
+
+Total: 2 functions found in 1 files
+Time: 5.00 seconds
+"
+`;
